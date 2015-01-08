@@ -9,7 +9,7 @@
 var exec = require('cordova/exec');
 
 var VolumeControl = {
-  setVolume: function(vol, successCallback, failureCallback, playSound){
+	setVolume: function(vol, successCallback, failureCallback, playSound){
 		return exec(
 			successCallback,
 			failureCallback,
@@ -24,7 +24,17 @@ var VolumeControl = {
 			failureCallback,
 			'VolumeControl',
 			'getVolume',
-			[]);
+			[]
+		);
+	},
+	registerVolumeListener: function(listener, successCallback, failureCallback) {
+		return exec(
+			successCallback,
+			failureCallback,
+			'VolumeControl',
+			'registerVolumeListener',
+			[listener]
+		);
 	}
 };
 
