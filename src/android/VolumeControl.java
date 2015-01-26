@@ -8,8 +8,6 @@
 
 package com.develcode.plugins.volumeControl;
 
-import com.develcode.plugins.volumeControl.VolumeListener;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.LOG;
@@ -23,13 +21,10 @@ public class VolumeControl extends CordovaPlugin {
 
 	public static final String SET = "setVolume";
 	public static final String GET = "getVolume";
-	public static final String REGISTER = "registerVolumeListener";
 	private static final String TAG = "VolumeControl";
 
 	private Context context;
 	private AudioManager manager;
-
-	protected VolumeListener volumeListener = null;
 
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -56,9 +51,6 @@ public class VolumeControl extends CordovaPlugin {
 			String strVol= String.valueOf(currVol);
 			callbackContext.success(strVol);
 			LOG.d(TAG, "Current Volume is " + currVol);
-		} else if(action.equals(REGISTER)) {
-			// Register a callback on the JS side to receive media volume changes
-			registerVolumeListener(callbackContext);
 		} else {
 			actionState = false;
 		}
@@ -85,17 +77,6 @@ public class VolumeControl extends CordovaPlugin {
 		} catch (Exception e) {
 			LOG.d(TAG, "getVolume error: " + e);
 			return 1;
-		}
-	}
-
-	private void registerVolumeListener(CallbackContext listener) {
-		if(volumeListener == null)
-		{
-			volumeListener = new VolumeListener(listener, this);
-		}
-		else
-		{
-			volumeListener.add(listener);
 		}
 	}
 }
